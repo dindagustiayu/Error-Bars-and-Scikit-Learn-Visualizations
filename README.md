@@ -1,4 +1,4 @@
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](Errorbars.py)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]()
 
 # Error Bars in Atomic Scale
 Scientific measurement is often associated with uncertainties, so we need accurate accounting for error analysis. Wherever possible these should be indicated on plots and graphs. Showing the error effectively can make plot convey much more complete information. A dedicated Matplotlib method, `errorbar()` allow this, for full documentation see [here](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.errorbar.html)
@@ -6,9 +6,8 @@ Scientific measurement is often associated with uncertainties, so we need accura
 ## Prior Data
 - Standard Deviation
 - Confidence Interval
-- Gaussian Process Regression
 
-## Preliminaries 
+## Preliminaries
 ```python
 import matplotlib.pyplot as plt
 import numpy as np
@@ -31,10 +30,8 @@ errorbar(x, y, yerr, xerr, fmt, ecolor, elinewidth, capsize, capthick)
 - [Jake VanderPlas](https://jakevdp.github.io/PythonDataScienceHandbook/04.03-errorbars.html#:~:text=In%20visualization%20of%20data%20and,errorbar%20.)
 - [Scikit-Learn](https://scikit-learn.org/stable/auto_examples/gaussian_process/plot_gpr_noisy_targets.html)
 
-
 # P10.1 Simple Basic Errorbars
 A basic errorbar can create with a single Matplotlib function call. The `errorbar` fucntion has many options to fine-tune the outputs. Using these additional options such as `color`, `capsize`, can easily customize the aesthetics of our errorbar plot. 
-
 
 ```python
 import matplotlib.pyplot as plt
@@ -49,7 +46,8 @@ xerr = x * 0.1
 plt.errorbar(x, y, yerr=dy, xerr=xerr, fmt='o', color='black', capsize=4)
 plt.xlabel("x") 
 plt.ylabel("y") 
-plt.title("Error bar plot with noise") 
+plt.title("Error bar plot with noise")
+plt.savefig('Error bar with noise.svg', bbox_inches='tight')
 plt.show()
 ```
 ![](https://github.com/dindagustiayu/Error-Bars-and-Scikit-Learn-Visualizations/blob/main/error%20bar%20svg/Error%20bar%20with%20noise.svg)
@@ -59,12 +57,12 @@ All experimental measurements have some degrees of uncertainty, often referred t
 
 ## Description of Ohm's Law
 The current that flows through most subtances is directly proportional to the voltage $V$ applied to it. The German Physicist Georg Simon __Ohm__ (1787-1854) was the first to demonstrate experimentally that the current in a metal wire is __directly proportial to the voltage applied__:
-<p align="center">
-  $I\; \infty\; V$
-  
-<p align="center">
-  $V=IR$
-</p>
+$$
+I\;\infty\;V
+$$
+$$
+V\;=\;IR
+$$
 
 where $V$ is the voltage measured in volts across the object in question, I is the current measured through the object in amps, and $R$ is the resistance in units of ohms. For full information is [here](https://phys.libretexts.org/Bookshelves/University_Physics/University_Physics_(OpenStax)/University_Physics_II_-_Thermodynamics_Electricity_and_Magnetism_(OpenStax)/09%3A_Current_and_Resistance/9.05%3A_Ohm's_Law)
 
@@ -93,13 +91,13 @@ plt.show()
 ![](https://github.com/dindagustiayu/Error-Bars-and-Scikit-Learn-Visualizations/blob/main/error%20bar%20svg/Error%20bar%20Ohm%20Law.svg)
 
 ## Overlay theory and errorbars in both dimensions
-Let's assume that the Ohm's Law experiment was conducted with a $1k\Omega$ and that the voltage measurement had an uncertainty of 0.1 V. We can plot errors in both dimensions.
+Let's assume that the Ohm's Law experiment was conducted qith a $1 k\Omega$ and that the voltage measurement had an uncertainty of 0.1 V. We can plot errors in both dimension.
 
 ```python
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Load a Sample dataset
+# Load a Sample data set
 # run cell to download data file
 V, I_mA, Ierr_mA = np.loadtxt('data_with_errors.txt', unpack=True)
 
@@ -124,20 +122,19 @@ plt.show()
 ```
 ![](https://github.com/dindagustiayu/Error-Bars-and-Scikit-Learn-Visualizations/blob/main/error%20bar%20svg/Error%20bar%20Ohm%20Law%20bothdimensions.svg)
 
-
-# P10.3 Continuous Errors in Gaussian Regression
-In this work, we will try a simple Gaussian process regression, using the Scikit-Learn API (for details, see [Introducing Scikit-Learn](https://jakevdp.github.io/PythonDataScienceHandbook/05.02-introducing-scikit-learn.html)). This method for fitting a very flexible non-parametric function to data with a continuous measure of the uncertainty. 
+# P10.3 Continues Errors in Gaussian Regression
+In this work, we will try a simple Gaussian process regression, using the Scikit-Learn API (for details, see [Introducing Scikit-Learn](https://jakevdp.github.io/PythonDataScienceHandbook/05.02-introducing-scikit-learn.html)). This method for fitting a very flexible non-paramteric function to data with a continous measure of the uncertainty. 
 
 ## Basics of Gaussian Process regression
-Gaussian process regression (GPR) is supervised learning method used to solve regression and probabilistic classification problems. GPR has been applied to solve several different types of real-world problems, including one in materials science, chemistry, physics, and biology.
+Gaussing process regression (GPR) is supervised learning menthod used to solve regression and probabilistic classification problems. GPR has been applied to solve several different types of real-world problems, including ones in materials science, chemistry, physics, and biology.
 
 ## Python implementation and Scikit-Learn
 The Scikit-Learn version is implemented mainly upon NumPy, which is simple and easy to use, but has limited hyperparameter tuning options.
 
-To illustrate how kernel work in GPR, we will look at a simple dataset curated intentionally. We will start by generating a synthetic dataset. The true generative process is defined.
-<p align="center">
-  $f(x)\;=\; x\; sin(x)$
-</p>
+To illustrate how kernel work in GPR, we will look at a simple dataset curated intentionaly. We will start by generating a synthetic dataset. The true generative process is defined.
+$$
+f(x)\;=\;x\;sin(x)
+$$
 
 ## Key Arguments
 ```python
@@ -159,7 +156,6 @@ kernel = RBF(length_scale=1.0)
 gp = GaussianProcessRegressor(kernel=kernel, n_restarts_optimizer=10)
 ```
 `kernel`: defines the covariance function of Gaussian process
-
 ```python
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF
@@ -183,7 +179,7 @@ gp.fit(xdata[:, np.newaxis], ydata)
 xfit = np.linspace(start=0, stop=10, num=1000)
 yfit, ystd = gp.predict(xfit[:, np.newaxis], return_std=True)
 
-# Visualize the result
+# Visulaize the result
 plt.plot(xdata, ydata, 'or', label=r'$f(x) = x \sin(x)$')
 plt.plot(xfit, yfit, color='gray', label='Gaussian Prediction', linestyle='dotted')
 
